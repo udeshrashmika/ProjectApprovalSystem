@@ -17,7 +17,8 @@ namespace ProjectApprovalSystem
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             // Added .AddRoles<IdentityRole>() here to support role management
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            // Set RequireConfirmedAccount to false to bypass email verification timeout
+            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
