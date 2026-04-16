@@ -1,0 +1,68 @@
+﻿@model IEnumerable<BlindMatchPAS.Models.ProjectProposal>
+
+@{
+    ViewData["Title"] = "Blind Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary fw-bold">Supervisor Dashboard <span class="text-muted fs-5">(Blind Mode)</span></h2>
+    </div>
+    
+    <div class="alert alert-info border-0 shadow-sm">
+        <i class="bi bi-info-circle-fill"></i> <strong>Note:</strong> Student identities are hidden to ensure unbiased evaluation based solely on the project's merit.
+    </div>
+
+    <div class="card shadow-sm border-0 mt-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Project Title</th>
+                            <th>Research Area</th>
+                            <th>Tech Stack</th>
+                            <th>Abstract</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="6" class="text-center text-muted p-4">No project proposals found.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@item.Title</td>
+                                    <td><span class="badge bg-secondary">@item.ResearchArea</span></td>
+                                    <td>@item.TechStack</td>
+                                    
+                                    <td>@(item.Abstract?.Length > 50 ? item.Abstract.Substring(0, 50) + "..." : item.Abstract)</td>
+                                    <td>
+                                        @if (item.Status == "Pending")
+                                        {
+                                            <span class="badge bg-warning text-dark">Pending</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">@item.Status</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline-primary fw-bold">Review</button>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
