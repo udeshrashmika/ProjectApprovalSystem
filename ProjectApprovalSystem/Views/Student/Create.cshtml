@@ -1,0 +1,43 @@
+@model BlindMatchPAS.Models.ProjectProposal
+
+@{
+    ViewData["Title"] = "Submit Project Proposal";
+}
+
+<div class="container mt-4">
+    <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0">Submit Your Project Proposal</h3>
+        </div>
+        <div class="card-body p-4">
+            <p class="text-muted">Please enter your project details here. Due to Blind Matching, your name will not be visible to the Supervisor initially.</p>
+            
+            <form asp-action="Create" method="post">
+                <div class="mb-3">
+                    <label asp-for="Title" class="form-label fw-bold">Project Title</label>
+                    <input asp-for="Title" class="form-control" placeholder="Enter the title of your project" required />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Abstract" class="form-label fw-bold">Abstract / Description</label>
+                    <textarea asp-for="Abstract" class="form-control" rows="5" placeholder="Provide a brief description of your project" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="TechStack" class="form-label fw-bold">Technology Stack</label>
+                    <input asp-for="TechStack" class="form-control" placeholder="e.g., ASP.NET Core, React, SQL Server" required />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ResearchArea" class="form-label fw-bold">Research Area</label>
+                    <input asp-for="ResearchArea" class="form-control" placeholder="e.g., Machine Learning, Web Development" required />
+                </div>
+
+                <div class="d-grid gap-2 mt-4">
+                    <button type="submit" class="btn btn-success btn-lg">Submit Proposal</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Back to Home</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
