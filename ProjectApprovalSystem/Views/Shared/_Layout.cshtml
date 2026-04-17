@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProjectApprovalSystem.styles.css" asp-append-version="true" />
 </head>
-<body class="bg-light">
+<body class="bg-light d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom shadow-sm mb-3">
             <div class="container-fluid">
@@ -27,14 +27,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-warning fw-bold" asp-area="" asp-controller="Student" asp-action="Create">Submit Proposal</a>
                         </li>
-<<<<<<< HEAD
                         <li class="nav-item">
                             <a class="nav-link text-info fw-bold" asp-area="" asp-controller="Supervisor" asp-action="BlindDashboard">Blind Dashboard</a>
                         </li>
-=======
->>>>>>> 54a5a88be28a2fa12c80680c0b3ed8d075b289e7
                     </ul>
-                    @* Combined with your updated _LoginPartial, this will now appear clearly on the right *@
                     <div class="d-flex align-items-center">
                         <partial name="_LoginPartial" />
                     </div>
@@ -45,7 +41,7 @@
 
     <div class="container">
         <main role="main" class="pb-3">
-            <div class="card shadow-sm p-4 bg-white" style="border-radius: 15px;">
+            <div class="card shadow-sm border-0 p-4 bg-white" style="border-radius: 15px;">
                 @RenderBody()
             </div>
         </main>
