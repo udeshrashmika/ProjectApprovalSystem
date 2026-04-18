@@ -36,6 +36,15 @@
                         <label asp-for="Input.ConfirmPassword">Confirm Password</label>
                         <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
                     </div>
+                    <div class="form-floating mb-3">
+                        <select asp-for="Input.SelectedRole" class="form-control" style="border-radius: 10px;">
+                            <option value="" disabled selected>-- Choose your Role --</option>
+                            <option value="Student">Student</option>
+                            <option value="Supervisor">Supervisor</option>
+                        </select>
+                        <label asp-for="Input.SelectedRole">I am a...</label>
+                        <span asp-validation-for="Input.SelectedRole" class="text-danger"></span>
+                    </div>
 
                     <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-success fw-bold" style="border-radius: 10px; padding: 12px;">Create Account</button>
                     
