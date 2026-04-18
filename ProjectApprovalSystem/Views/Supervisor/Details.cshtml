@@ -1,0 +1,55 @@
+@model BlindMatchPAS.Models.ProjectProposal
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<h2>Project Details</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Title</dt>
+        <dd class="col-sm-10">@Model.Title</dd>
+
+        <dt class="col-sm-2">Abstract</dt>
+        <dd class="col-sm-10">@Model.Abstract</dd>
+
+        <dt class="col-sm-2">Tech Stack</dt>
+        <dd class="col-sm-10">@Model.TechStack</dd>
+        
+        <dt class="col-sm-2">Research Area</dt>
+        <dd class="col-sm-10">@Model.ResearchArea</dd>
+
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">
+            <span class="badge @(Model.Status == "Matched" ? "bg-success" : "bg-warning")">
+                @Model.Status
+            </span>
+        </dd>
+    </dl>
+</div>
+
+<div class="mt-4">
+    <h3>Student Information</h3>
+    
+    @if (Model.Status == "Matched")
+    {
+        <div class="alert alert-success">
+            <h5 class="alert-heading">Identity Revealed!</h5>
+            <p><strong>Student ID:</strong> @Model.StudentId</p>
+            <p><strong>Contact Email:</strong> @Model.StudentEmail</p>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-secondary">
+            <h5 class="alert-heading">Blind Review Active</h5>
+            <p><i>Student identity is hidden to eliminate unconscious bias during the selection phase. Details will be revealed once the project is "Matched".</i></p>
+        </div>
+    }
+</div>
+
+<div class="mt-3">
+    <a asp-action="BlindDashboard" class="btn btn-primary">Back to Dashboard</a>
+</div>
