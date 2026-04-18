@@ -5,8 +5,8 @@ using System.Linq;
 
 namespace ProjectApprovalSystem.Controllers
 {
-     
-   
+
+
     [Authorize]
     public class SupervisorController : Controller
     {
@@ -19,9 +19,27 @@ namespace ProjectApprovalSystem.Controllers
 
         public IActionResult BlindDashboard()
         {
-           
+
             var proposals = _context.Proposals.ToList();
             return View(proposals);
+        }
+        [HttpPost]
+        public IActionResult ConfirmMatch(int projectId)
+        {
+
+            var project = _context.Proposals.Find(projectId);
+
+            if (project != null)
+            {
+
+                project.Status = "Matched";
+
+
+                _context.SaveChanges();
+            }
+
+
+            return RedirectToAction("BlindDashboard");
         }
     }
 }
