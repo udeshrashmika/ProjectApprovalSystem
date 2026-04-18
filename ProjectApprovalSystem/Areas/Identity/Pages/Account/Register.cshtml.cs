@@ -1,6 +1,6 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿
 #nullable disable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -68,12 +68,11 @@ namespace ProjectApprovalSystem.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
-            
+
            
             [Required]
             [Display(Name = "User Role")]
             public string SelectedRole { get; set; }
-           
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -86,6 +85,7 @@ namespace ProjectApprovalSystem.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -98,7 +98,16 @@ namespace ProjectApprovalSystem.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, "Student");
+                   
+                    if (!string.IsNullOrEmpty(Input.SelectedRole))
+                    {
+                        await _userManager.AddToRoleAsync(user, Input.SelectedRole);
+                    }
+                    else
+                    {
+                        
+                        await _userManager.AddToRoleAsync(user, "Student");
+                    }
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -128,6 +137,7 @@ namespace ProjectApprovalSystem.Areas.Identity.Pages.Account
                 }
             }
 
+            
             return Page();
         }
 
