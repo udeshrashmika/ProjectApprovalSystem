@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using ProjectApprovalSystem.Data;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using System.Linq;
 
 namespace ProjectApprovalSystem.Controllers
 {
-
-
-    [Authorize]
+    [Authorize(Roles = "Supervisor")] 
     public class SupervisorController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -17,29 +17,40 @@ namespace ProjectApprovalSystem.Controllers
             _context = context;
         }
 
-        public IActionResult BlindDashboard()
+        public async Task<IActionResult> BlindDashboard()
         {
-
-            var proposals = _context.Proposals.ToList();
+            var proposals = await _context.Proposals.ToListAsync();
             return View(proposals);
         }
-        [HttpPost]
-        public IActionResult ConfirmMatch(int projectId)
-        {
 
-            var project = _context.Proposals.Find(projectId);
+        public async Task<IActionResult> Details(int id)
+        {
+            var project = await _context.Proposals.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (project == null)
+            {
+                return NotFound();
+            }
+
+            return View(project);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken] 
+        public async Task<IActionResult> ConfirmMatch(int id)
+        {
+            var project = await _context.Proposals.FindAsync(id);
 
             if (project != null)
             {
-
                 project.Status = "Matched";
 
 
-                _context.SaveChanges();
+                _context.Update(project);
+                await _context.SaveChangesAsync();
             }
 
-
-            return RedirectToAction("BlindDashboard");
+            return RedirectToAction(nameof(BlindDashboard));
         }
     }
 }

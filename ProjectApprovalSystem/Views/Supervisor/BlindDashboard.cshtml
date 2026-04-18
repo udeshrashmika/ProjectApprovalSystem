@@ -24,7 +24,7 @@
                             <th>Tech Stack</th>
                             <th>Abstract</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,8 +54,13 @@
                                             <span class="badge bg-success">@item.Status</span>
                                         }
                                     </td>
-                                    <td>
-                                        <button class="btn btn-sm btn-outline-primary fw-bold">Review</button>
+                                    <td class="text-center">
+                                        <a asp-action="Details"
+                                               asp-controller="Supervisor"
+                                               asp-route-id="@item.Id"
+                                               class="btn btn-sm btn-outline-primary fw-bold px-3">
+                                            Review
+                                        </a>
                                     </td>
                                 </tr>
                             }
