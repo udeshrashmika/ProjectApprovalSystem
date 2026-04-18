@@ -24,12 +24,30 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-warning fw-bold" asp-area="" asp-controller="Student" asp-action="Create">Submit Proposal</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-info fw-bold" asp-area="" asp-controller="Supervisor" asp-action="BlindDashboard">Blind Dashboard</a>
-                        </li>
+
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            @if (User.IsInRole("Student"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-warning fw-bold" asp-area="" asp-controller="Student" asp-action="Create">Submit Proposal</a>
+                                </li>
+                            }
+
+                            @if (User.IsInRole("Supervisor"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-info fw-bold" asp-area="" asp-controller="Supervisor" asp-action="BlindDashboard">Blind Dashboard</a>
+                                </li>
+                            }
+
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link text-danger fw-bold" asp-area="" asp-controller="Admin" asp-action="Oversight">Admin Oversight</a>
+                                </li>
+                            }
+                        }
                     </ul>
                     <div class="d-flex align-items-center">
                         <partial name="_LoginPartial" />
