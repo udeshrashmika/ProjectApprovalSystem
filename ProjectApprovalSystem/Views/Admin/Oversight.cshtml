@@ -22,6 +22,7 @@
                             <th>Project Title</th>
                             <th>Research Area</th>
                             <th>Student Email</th>
+                            <th>Matched Lecturer</th>
                             <th>Status</th>
                         </tr>
                     </thead>
@@ -29,7 +30,7 @@
                         @if (!Model.Any())
                         {
                             <tr>
-                                <td colspan="4" class="text-center text-muted p-4">No project proposals found in the system.</td>
+                                <td colspan="5" class="text-center text-muted p-4">No project proposals found in the system.</td>
                             </tr>
                         }
                         else
@@ -39,8 +40,13 @@
                                 <tr>
                                     <td class="fw-bold">@item.Title</td>
                                     <td><span class="badge bg-secondary">@item.ResearchArea</span></td>
+
                                     <td class="text-primary fw-bold">
                                         @(string.IsNullOrEmpty(item.StudentEmail) ? "Not Provided" : item.StudentEmail)
+                                    </td>
+
+                                    <td class="text-info fw-bold">
+                                        @(string.IsNullOrEmpty(item.SupervisorEmail) ? "Waiting..." : item.SupervisorEmail)
                                     </td>
 
                                     <td>

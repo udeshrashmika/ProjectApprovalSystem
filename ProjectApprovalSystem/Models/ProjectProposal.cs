@@ -18,14 +18,15 @@ namespace BlindMatchPAS.Models
         public string TechStack { get; set; }
 
         [Required]
-        public string ResearchArea { get; set; } 
+        public string ResearchArea { get; set; }
 
-        public string Status { get; set; } = "Pending"; 
+        public string Status { get; set; } = "Pending";
 
         public string? StudentId { get; set; }
         public string? StudentEmail { get; set; }
 
         public string? SupervisorId { get; set; }
         public string? SupervisorName { get; set; }
+        public string? SupervisorEmail { get; set; }
     }
 }
