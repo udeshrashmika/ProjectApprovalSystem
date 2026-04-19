@@ -1,0 +1,64 @@
+﻿@model IEnumerable<BlindMatchPAS.Models.ProjectProposal>
+
+@{
+    ViewData["Title"] = "Admin Oversight Dashboard";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-danger fw-bold">Admin Master Dashboard <span class="text-muted fs-5">(Oversight Mode)</span></h2>
+    </div>
+
+    <div class="alert alert-danger border-0 shadow-sm">
+        <i class="bi bi-shield-lock-fill"></i> <strong>Admin Privilege:</strong> You are viewing the master record of all projects. Student identities are visible to you.
+    </div>
+
+    <div class="card shadow-sm border-danger mt-4">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Project Title</th>
+                            <th>Research Area</th>
+                            <th>Student Email</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="4" class="text-center text-muted p-4">No project proposals found in the system.</td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td class="fw-bold">@item.Title</td>
+                                    <td><span class="badge bg-secondary">@item.ResearchArea</span></td>
+                                    <td class="text-primary fw-bold">
+                                        @(string.IsNullOrEmpty(item.StudentEmail) ? "Not Provided" : item.StudentEmail)
+                                    </td>
+
+                                    <td>
+                                        @if (item.Status == "Pending")
+                                        {
+                                            <span class="badge bg-warning text-dark">Pending Match</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-success">@item.Status</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
