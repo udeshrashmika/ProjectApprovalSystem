@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using BlindMatchPAS.Models;
 using ProjectApprovalSystem.Data;
-using Microsoft.AspNetCore.Authorization; 
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace ProjectApprovalSystem.Controllers
 {
@@ -28,12 +29,22 @@ namespace ProjectApprovalSystem.Controllers
             if (ModelState.IsValid)
             {
                 proposal.Status = "Pending";
+                proposal.StudentEmail = User.Identity.Name;
 
                 _context.Proposals.Add(proposal);
                 _context.SaveChanges();
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("MyStatus", "Student");
             }
+            return View(proposal);
+        }
+
+        [HttpGet]
+        public IActionResult MyStatus()
+        {
+            var userEmail = User.Identity.Name;
+            var proposal = _context.Proposals.FirstOrDefault(p => p.StudentEmail == userEmail);
+
             return View(proposal);
         }
     }
