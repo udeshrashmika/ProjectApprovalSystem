@@ -25,21 +25,28 @@ namespace BlindMatchPAS.Tests
         [Fact]
         public async Task Test_ConfirmMatch_ChangesStatus()
         {
-            
             var db = GetInMemoryDB();
 
             var userStoreMock = new Mock<IUserStore<IdentityUser>>();
             var userManagerMock = new Mock<UserManager<IdentityUser>>(
                 userStoreMock.Object, null, null, null, null, null, null, null, null);
 
-            var fakeSupervisor = new IdentityUser { Email = "supervisor@test.com", UserName = "supervisor@test.com" };
-            userManagerMock.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync(fakeSupervisor);
+            var fakeSupervisor = new IdentityUser
+            {
+                Id = "sup_123",
+                Email = "supervisor@test.com",
+                UserName = "supervisor@test.com"
+            };
+
+            userManagerMock.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>()))
+                           .ReturnsAsync(fakeSupervisor);
 
             var controller = new SupervisorController(db, userManagerMock.Object);
 
             var userPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
                 new Claim(ClaimTypes.Name, "supervisor@test.com"),
-                new Claim(ClaimTypes.Email, "supervisor@test.com")
+                new Claim(ClaimTypes.Email, "supervisor@test.com"),
+                new Claim(ClaimTypes.NameIdentifier, "sup_123") 
             }, "mock"));
 
             controller.ControllerContext = new ControllerContext()
@@ -47,26 +54,25 @@ namespace BlindMatchPAS.Tests
                 HttpContext = new DefaultHttpContext() { User = userPrincipal }
             };
 
-            
             var proposal = new ProjectProposal
             {
                 Id = 99,
                 Title = "Udesh Final Test",
                 Status = "Pending",
                 Abstract = "Test Abstract",
-                TechStack = "C#"
+                TechStack = "C#",
+                ResearchArea = "AI" 
             };
             db.Proposals.Add(proposal);
             await db.SaveChangesAsync();
 
-           
             var result = await controller.ConfirmMatch(99);
 
-           
             var updated = await db.Proposals.FindAsync(99);
             Assert.NotNull(updated);
             Assert.Equal("Matched", updated.Status);
             Assert.Equal("supervisor@test.com", updated.SupervisorEmail);
+            Assert.IsType<RedirectToActionResult>(result);
         }
     }
 }
