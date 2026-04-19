@@ -10,14 +10,14 @@ namespace ProjectApprovalSystem
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+          
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-            // Added .AddRoles<IdentityRole>() here to support role management
-            // Set RequireConfirmedAccount to false to bypass email verification timeout
+         
+        
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -26,7 +26,7 @@ namespace ProjectApprovalSystem
 
             var app = builder.Build();
 
-            // Code block to run the DbSeeder
+         
             using (var scope = app.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
@@ -42,7 +42,7 @@ namespace ProjectApprovalSystem
             }
 
 
-            // Configure the HTTP request pipeline.
+           
             if (app.Environment.IsDevelopment())
             {
                 app.UseMigrationsEndPoint();
